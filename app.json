@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Wowzi-Rn-Challenge",
+    "slug": "Wowzi-Rn-Challenge",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Wowzi-Rn-Challenge"
+}
