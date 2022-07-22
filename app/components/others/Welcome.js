@@ -4,9 +4,13 @@ import Screen from "./Screen";
 import SearchField from "../Search/SearchField";
 import SPACING from "../../config/constants";
 import colors from "../../config/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const IMAGE_HEIGH = 230;
 const Welcome = () => {
+  const handleTextChange = (value) => {
+    console.log(value);
+  };
   return (
     <ImageBackground
       source={require("../../assets/images/bg.jpg")}
@@ -20,7 +24,7 @@ const Welcome = () => {
             Discover your favorites characters
           </Text>
         </View>
-        <SearchField />
+        <SearchField onChangeText={handleTextChange} />
       </Screen>
     </ImageBackground>
   );

@@ -4,8 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import SPACING from "../../config/constants";
 import colors from "../../config/colors";
 
-const SearchField = ({ onBlur, onChange }) => {
-  const [value, setValue] = useState("");
+const SearchField = ({ onChangeText }) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -19,12 +18,7 @@ const SearchField = ({ onBlur, onChange }) => {
         clearButtonMode="while-editing"
         dataDetectorTypes={"none"}
         keyboardType="web-search"
-        value={value}
-        onChangeText={(text) => {
-          setValue(text);
-        }}
-        onBlur={onBlur}
-        onChange={onChange}
+        onChangeText={onChangeText}
       />
     </View>
   );
