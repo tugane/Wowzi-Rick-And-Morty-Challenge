@@ -15,21 +15,6 @@ const DetailsScreen = ({ route }) => {
       </SharedElement>
       <View style={styles.detailContainer}>
         <Text style={[styles.title, styles.name]}>{character.species}</Text>
-        <View style={styles.locationTitleWrap}>
-          <View>
-            <Ionicons
-              name="location-outline"
-              size={SPACING * 2}
-              color={colors.gray}
-            />
-          </View>
-          <Text style={[styles.subTitle, styles.locationTitle]}>
-            Last known location
-          </Text>
-        </View>
-        <Text style={[styles.title, styles.location]}>
-          {character.location.name}
-        </Text>
         <View style={styles.moreInfo}>
           <View style={styles.infoWrap}>
             <Text style={[styles.title, styles.moreInfoTitle]}>
@@ -107,19 +92,6 @@ const styles = StyleSheet.create({
     color: colors.gray,
     textTransform: "capitalize",
     marginBottom: SPACING,
-  },
-  locationTitleWrap: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  locationTitle: {
-    marginTop: SPACING,
-    textTransform: "none",
-  },
-  location: {
-    fontSize: SPACING * 2,
-    marginLeft: SPACING / 2,
   },
   moreInfo: {
     flexDirection: "row",
