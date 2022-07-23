@@ -4,7 +4,8 @@ import { Ionicons } from "@expo/vector-icons";
 import SPACING from "../../config/constants";
 import colors from "../../config/colors";
 
-const SearchField = ({ onChangeText }) => {
+const SearchField = ({ onChangeText, onSubmit }) => {
+  const [value, setValue] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -16,6 +17,7 @@ const SearchField = ({ onChangeText }) => {
         placeholder="search by name..."
         autoCapitalize="none"
         clearButtonMode="while-editing"
+        onSubmitEditing={(e) => onSubmit && onSubmit(e.nativeEvent.text)}
         dataDetectorTypes={"none"}
         keyboardType="web-search"
         onChangeText={onChangeText}

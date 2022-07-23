@@ -5,10 +5,10 @@ import {
   DarkTheme,
   DefaultTheme,
 } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import DetailsScreen from "../screens/DetailsScreen";
 import colors from "../config/colors";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 const whiteColors = {
   ...DefaultTheme,
@@ -24,7 +24,7 @@ const whiteColors = {
   },
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createSharedElementStackNavigator();
 const AppNavigator = () => {
   return (
     <NavigationContainer theme={whiteColors}>
@@ -48,6 +48,10 @@ const AppNavigator = () => {
           }}
           name="details"
           component={DetailsScreen}
+          sharedElements={(route) => {
+            const { character } = route.params;
+            return [`character.${character.id}.photo`];
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

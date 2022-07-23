@@ -10,18 +10,31 @@ import { Ionicons } from "@expo/vector-icons";
 import SPACING from "../../config/constants";
 import colors from "../../config/colors";
 import { useNavigation } from "@react-navigation/native";
+import { SharedElement } from "react-navigation-shared-element";
+import Animated, {
+  FadeInUp,
+  FadeOutDown,
+  Layout,
+} from "react-native-reanimated";
 
 const ITEM_WIDTH = 180;
 
-const GridCharacter = ({ character }) => {
-  const { navigate } = useNavigation();
+const GridCharacter = ({ character, index }) => {
+  const navigation = useNavigation();
   const handleClick = () => {
-    navigate("details", { character });
+    navigation.push("details", { character });
   };
   return (
     <TouchableWithoutFeedback onPress={handleClick}>
-      <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: character.image }} />
+      <Animated.View
+        entering={FadeInUp.springify().delay(SPACING * 3 * index)}
+        exiting={FadeOutDown.springify().delay(SPACING * 3 * index)}
+        layout={Layout.delay(200)}
+        style={styles.container}
+      >
+        <SharedElement id={`character.${character.id}.photo`}>
+          <Image style={styles.image} source={{ uri: character.image }} />
+        </SharedElement>
         <View style={styles.detailsWrap}>
           <Text style={styles.species}>{character.species}</Text>
           <View style={styles.locationWrap}>
@@ -33,7 +46,7 @@ const GridCharacter = ({ character }) => {
             <Text style={styles.location}>{character.location.name}</Text>
           </View>
         </View>
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 };

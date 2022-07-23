@@ -3,53 +3,111 @@ import React from "react";
 import SPACING from "../config/constants";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
+import { SharedElement } from "react-navigation-shared-element";
+import Animated, {
+  FadeInUp,
+  FadeOutDown,
+  Layout,
+  ZoomInEasyDown,
+  ZoomInEasyUp,
+  ZoomOutEasyUp,
+} from "react-native-reanimated";
 
 const DetailsScreen = ({ route }) => {
   const character = route.params.character;
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: character.image }} />
+      <SharedElement id={`character.${character.id}.photo`}>
+        <Image style={styles.image} source={{ uri: character.image }} />
+      </SharedElement>
       <View style={styles.detailContainer}>
-        <Text style={[styles.title, styles.species]}>{character.species}</Text>
-        <Text style={[styles.title, styles.name]} numberOfLines={2}>
+        <Animated.Text
+          entering={FadeInUp.springify().delay(SPACING * 2)}
+          exiting={FadeOutDown.springify().delay(SPACING * 2)}
+          layout={Layout.delay(200)}
+          style={[styles.title, styles.species]}
+        >
+          {character.species}
+        </Animated.Text>
+        <Animated.Text
+          entering={FadeInUp.springify().delay(SPACING * 4)}
+          exiting={FadeOutDown.springify().delay(SPACING * 4)}
+          layout={Layout.delay(200)}
+          style={[styles.title, styles.name]}
+          numberOfLines={2}
+        >
           {character.name}
-        </Text>
-        <View style={styles.locationTitleWrap}>
-          <Ionicons
-            name="location-outline"
-            size={SPACING * 2}
-            color={colors.gray}
-          />
-          <Text style={[styles.subTitle, styles.locationTitle]}>
+        </Animated.Text>
+        <Animated.View
+          entering={ZoomInEasyUp.springify().delay(SPACING * 5)}
+          exiting={ZoomOutEasyUp.springify().delay(SPACING * 5)}
+          layout={Layout.delay(200)}
+          style={styles.locationTitleWrap}
+        >
+          <View>
+            <Ionicons
+              name="location-outline"
+              size={SPACING * 2}
+              color={colors.gray}
+            />
+          </View>
+          <Text
+            entering={ZoomInEasyUp.springify().delay(SPACING * 6)}
+            exiting={ZoomOutEasyUp.springify().delay(SPACING * 6)}
+            layout={Layout.delay(200)}
+            style={[styles.subTitle, styles.locationTitle]}
+          >
             Last known location
           </Text>
-        </View>
-        <Text style={[styles.title, styles.location]}>
+        </Animated.View>
+        <Animated.Text
+          entering={FadeInUp.springify().delay(SPACING * 7)}
+          exiting={FadeOutDown.springify().delay(SPACING * 7)}
+          layout={Layout.delay(200)}
+          style={[styles.title, styles.location]}
+        >
           {character.location.name}
-        </Text>
-        <View style={styles.moreInfo}>
+        </Animated.Text>
+        <Animated.View
+          entering={FadeInUp.springify().delay(SPACING * 8)}
+          exiting={FadeOutDown.springify().delay(SPACING * 8)}
+          layout={Layout.delay(200)}
+          style={styles.moreInfo}
+        >
           <View style={styles.infoWrap}>
             <Text style={[styles.title, styles.moreInfoTitle]}>
               {character.gender}
             </Text>
-            <Text style={styles.shortSubTitle}>/gender</Text>
+            <Text style={styles.shortSubTitle}>gender</Text>
           </View>
-          <View style={styles.infoWrap}>
+          <View style={[styles.infoWrap, { marginHorizontal: SPACING }]}>
             <Text style={[styles.title, styles.moreInfoTitle]}>
               {character.episode.length}
             </Text>
             <Text style={styles.shortSubTitle}>
-              {`/episode${character.episode.length > 1 ? `s` : ``}`}
+              {`episode${character.episode.length > 1 ? `s` : ``}`}
             </Text>
           </View>
           <View style={styles.infoWrap}>
-            <Text style={[styles.title, styles.moreInfoTitle]}>
-              {character.status}
-            </Text>
-            <Text style={styles.shortSubTitle}>/status</Text>
+            <View style={styles.statusWrap}>
+              <View
+                style={[
+                  styles.status,
+                  character.status.toLowerCase() === "alive"
+                    ? { backgroundColor: colors.success }
+                    : character.status.toLowerCase() === "dead"
+                    ? { backgroundColor: colors.danger }
+                    : { backgroundColor: colors.gray },
+                ]}
+              />
+              <Text style={[styles.title, styles.moreInfoTitle]}>
+                {character.status}
+              </Text>
+            </View>
+            <Text style={styles.shortSubTitle}>status</Text>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </View>
   );
@@ -64,6 +122,9 @@ const styles = StyleSheet.create({
   image: {
     height: height / 2,
     borderRadius: SPACING * 2,
+    shadowRadius: 10,
+    shadowColor: colors.dark,
+    shadowOffset: { width: 10, height: 10 },
   },
   detailContainer: {
     marginVertical: SPACING * 2,
@@ -77,6 +138,7 @@ const styles = StyleSheet.create({
   },
   species: {
     fontWeight: "600",
+    color: colors.dark,
   },
   name: {
     fontSize: SPACING * 2.5,
@@ -100,31 +162,43 @@ const styles = StyleSheet.create({
     textTransform: "none",
   },
   location: {
-    fontSize: SPACING * 1.7,
+    fontSize: SPACING * 2,
+    marginLeft: SPACING / 2,
   },
   moreInfo: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    width: "100%",
     flexWrap: "wrap",
   },
+  statusWrap: {
+    flexDirection: "row",
+    width: "100%",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+  status: {
+    height: SPACING * 1.5,
+    width: SPACING * 1.5,
+    borderRadius: SPACING,
+    marginTop: SPACING / 2,
+    marginRight: SPACING,
+  },
   moreInfoTitle: {
-    fontSize: SPACING * 1.5,
+    fontSize: SPACING * 1.7,
   },
   infoWrap: {
+    width: width / 3 - SPACING * 2,
     padding: SPACING,
     borderRadius: SPACING,
     backgroundColor: colors.white,
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    flexWrap: "wrap",
   },
   shortSubTitle: {
-    fontSize: SPACING * 1.3,
+    fontSize: SPACING * 1.6,
     fontWeight: "500",
     color: colors.gray,
     textTransform: "capitalize",
-    marginBottom: SPACING,
   },
 });
