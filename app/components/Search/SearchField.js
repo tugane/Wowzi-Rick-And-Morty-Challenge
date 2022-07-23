@@ -5,7 +5,6 @@ import SPACING from "../../config/constants";
 import colors from "../../config/colors";
 
 const SearchField = ({ onChangeText, onSubmit }) => {
-  const [value, setValue] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -21,6 +20,7 @@ const SearchField = ({ onChangeText, onSubmit }) => {
         dataDetectorTypes={"none"}
         keyboardType="web-search"
         onChangeText={onChangeText}
+        autoCorrect={false}
       />
     </View>
   );

@@ -5,14 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 const { height, width } = Dimensions.get("window");
 import { SharedElement } from "react-navigation-shared-element";
-import Animated, {
-  FadeInUp,
-  FadeOutDown,
-  Layout,
-  ZoomInEasyDown,
-  ZoomInEasyUp,
-  ZoomOutEasyUp,
-} from "react-native-reanimated";
 
 const DetailsScreen = ({ route }) => {
   const character = route.params.character;
@@ -22,29 +14,8 @@ const DetailsScreen = ({ route }) => {
         <Image style={styles.image} source={{ uri: character.image }} />
       </SharedElement>
       <View style={styles.detailContainer}>
-        <Animated.Text
-          entering={FadeInUp.springify().delay(SPACING * 2)}
-          exiting={FadeOutDown.springify().delay(SPACING * 2)}
-          layout={Layout.delay(200)}
-          style={[styles.title, styles.species]}
-        >
-          {character.species}
-        </Animated.Text>
-        <Animated.Text
-          entering={FadeInUp.springify().delay(SPACING * 4)}
-          exiting={FadeOutDown.springify().delay(SPACING * 4)}
-          layout={Layout.delay(200)}
-          style={[styles.title, styles.name]}
-          numberOfLines={2}
-        >
-          {character.name}
-        </Animated.Text>
-        <Animated.View
-          entering={ZoomInEasyUp.springify().delay(SPACING * 5)}
-          exiting={ZoomOutEasyUp.springify().delay(SPACING * 5)}
-          layout={Layout.delay(200)}
-          style={styles.locationTitleWrap}
-        >
+        <Text style={[styles.title, styles.name]}>{character.species}</Text>
+        <View style={styles.locationTitleWrap}>
           <View>
             <Ionicons
               name="location-outline"
@@ -52,29 +23,14 @@ const DetailsScreen = ({ route }) => {
               color={colors.gray}
             />
           </View>
-          <Text
-            entering={ZoomInEasyUp.springify().delay(SPACING * 6)}
-            exiting={ZoomOutEasyUp.springify().delay(SPACING * 6)}
-            layout={Layout.delay(200)}
-            style={[styles.subTitle, styles.locationTitle]}
-          >
+          <Text style={[styles.subTitle, styles.locationTitle]}>
             Last known location
           </Text>
-        </Animated.View>
-        <Animated.Text
-          entering={FadeInUp.springify().delay(SPACING * 7)}
-          exiting={FadeOutDown.springify().delay(SPACING * 7)}
-          layout={Layout.delay(200)}
-          style={[styles.title, styles.location]}
-        >
+        </View>
+        <Text style={[styles.title, styles.location]}>
           {character.location.name}
-        </Animated.Text>
-        <Animated.View
-          entering={FadeInUp.springify().delay(SPACING * 8)}
-          exiting={FadeOutDown.springify().delay(SPACING * 8)}
-          layout={Layout.delay(200)}
-          style={styles.moreInfo}
-        >
+        </Text>
+        <View style={styles.moreInfo}>
           <View style={styles.infoWrap}>
             <Text style={[styles.title, styles.moreInfoTitle]}>
               {character.gender}
@@ -107,7 +63,7 @@ const DetailsScreen = ({ route }) => {
             </View>
             <Text style={styles.shortSubTitle}>status</Text>
           </View>
-        </Animated.View>
+        </View>
       </View>
     </View>
   );

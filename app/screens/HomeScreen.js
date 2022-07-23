@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, RefreshControl, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Welcome from "../components/others/Welcome";
 import SectionHeader from "../components/others/SectionHeader";
@@ -15,27 +15,30 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [searching, setSearching] = useState(false);
-  const [lastLoadMore, setLastLoadMore] = useState(Date.now());
-  const [nextPage, setNextPage] = useState(null);
+  const [lastLoad, setLastLoad] = useState(Date.now());
+  const [queryParams, setQueryParams] = useState("");
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
 
   useEffect(() => {
     setLoading(true);
     loadCharacters();
   }, []);
 
-  const loadCharacters = async (params = "") => {
+  const loadCharacters = async (params = queryParams) => {
     const result = await getCharacters(params);
     if (!result.ok) {
       setLoading(false);
     }
-    setCharacters(result.data.results);
-    setNextPage(result.data.info.next);
     setLoading(false);
     setSearching(false);
+    setCharacters(result.data.results);
+    setPage(1);
+    setPages(result.data.info.pages);
   };
 
-  const loadMoreCharacters = async (page) => {
-    const result = await getCharacters(page);
+  const loadMoreCharacters = async (params = queryParams) => {
+    const result = await getCharacters(params);
     if (!result.ok) {
       setLoadingMore(false);
     }
@@ -43,16 +46,18 @@ const HomeScreen = () => {
       let currData = [...currentCharacters, ...result.data.results];
       return currData;
     });
-    setNextPage(result.data.info.next);
     setLoadingMore(false);
+    setPage(page + 1);
   };
 
   const handleSearch = (value) => {
     if (value) {
       setSearching(true);
-      // loadCharacters("?name=" + value);
+      loadCharacters("?name=" + value);
+      setQueryParams("?name=" + value);
     } else {
       loadCharacters();
+      setQueryParams("");
     }
   };
 
@@ -60,10 +65,15 @@ const HomeScreen = () => {
     const layoutHeight = event.nativeEvent.layoutMeasurement.height;
     const contentHeight = event.nativeEvent.contentSize.height;
     const scrollY = event.nativeEvent.contentOffset.y;
-    const diff = moment(Date.now()).diff(moment(lastLoadMore), "seconds");
-    if (scrollY + layoutHeight >= contentHeight && diff >= 5) {
-      loadMoreCharacters(nextPage);
-      setLastLoadMore(Date.now());
+    const diff = moment(Date.now()).diff(moment(lastLoad), "seconds");
+    if (scrollY + layoutHeight >= contentHeight && diff >= 5 && page < pages) {
+      setLoadingMore(true);
+      loadMoreCharacters(
+        queryParams
+          ? queryParams + "&page=" + (page + 1)
+          : queryParams + "?page=" + (page + 1)
+      );
+      setLastLoad(Date.now());
     }
   };
 
@@ -73,6 +83,15 @@ const HomeScreen = () => {
         <ScreenLoading />
       ) : (
         <Animated.ScrollView
+          refreshControl={
+            <RefreshControl
+              onRefresh={() => {
+                setLoading(true);
+                loadCharacters();
+              }}
+              refreshing={loading}
+            />
+          }
           scrollEventThrottle={16}
           onScroll={onScroll}
           style={styles.container}

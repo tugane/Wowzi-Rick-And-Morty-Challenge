@@ -23,7 +23,13 @@ const CharactersGridList = ({
           />
         ))}
       </View>
-      {loadingMore && <ActivityIndicator size="small" color={colors.dark} />}
+      {loadingMore && (
+        <ActivityIndicator
+          style={styles.indicator}
+          size="small"
+          color={colors.dark}
+        />
+      )}
     </>
   );
 };
@@ -37,5 +43,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     flex: 1,
+  },
+  indicator: {
+    marginBottom: SPACING * 2,
   },
 });
