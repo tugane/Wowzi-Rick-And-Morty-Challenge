@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import SPACING from "../../config/constants";
 import colors from "../../config/colors";

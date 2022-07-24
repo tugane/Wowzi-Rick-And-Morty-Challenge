@@ -1,10 +1,4 @@
-import {
-  Alert,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  View,
-} from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Welcome from "../components/others/Welcome";
 import SectionHeader from "../components/others/SectionHeader";
@@ -13,7 +7,6 @@ import CharactersGridList from "../components/Character/CharactersGridList";
 import colors from "../config/colors";
 import { getCharacters } from "../api/characters/characters";
 import ScreenLoading from "../components/others/ScreenLoading";
-import Animated from "react-native-reanimated";
 import moment from "moment";
 
 const HomeScreen = () => {
