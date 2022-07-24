@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   Image,
   StyleSheet,
   Text,
@@ -17,7 +18,9 @@ import Animated, {
   Layout,
 } from "react-native-reanimated";
 
-const ITEM_WIDTH = 180;
+const { width } = Dimensions.get("window");
+
+const ITEM_WIDTH = width / 2 - SPACING * 1.5;
 
 const GridCharacter = ({ character, index }) => {
   const navigation = useNavigation();

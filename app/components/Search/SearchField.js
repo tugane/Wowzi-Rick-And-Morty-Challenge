@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from "react-native";
+import { Platform, StyleSheet, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import SPACING from "../../config/constants";
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     left: SPACING,
   },
   input: {
-    padding: SPACING / 1.2,
+    padding: Platform.OS === "ios" ? SPACING / 1.2 : SPACING / 4,
     fontSize: SPACING * 1.5,
     color: colors.lightGray,
     paddingLeft: SPACING * 3,
