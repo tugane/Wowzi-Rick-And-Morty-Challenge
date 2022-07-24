@@ -1,4 +1,10 @@
-import { Alert, RefreshControl, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Welcome from "../components/others/Welcome";
 import SectionHeader from "../components/others/SectionHeader";
@@ -82,7 +88,8 @@ const HomeScreen = () => {
       {loading ? (
         <ScreenLoading />
       ) : (
-        <Animated.ScrollView
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl
               onRefresh={() => {
@@ -105,7 +112,7 @@ const HomeScreen = () => {
               characters={characters}
             />
           </View>
-        </Animated.ScrollView>
+        </ScrollView>
       )}
     </>
   );

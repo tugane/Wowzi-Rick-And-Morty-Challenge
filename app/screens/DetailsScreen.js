@@ -15,7 +15,7 @@ import { SharedElement } from "react-navigation-shared-element";
 const DetailsScreen = ({ route }) => {
   const character = route.params.character;
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <SharedElement id={`character.${character.id}.photo`}>
           <Image style={styles.image} source={{ uri: character.image }} />
