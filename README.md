@@ -18,9 +18,15 @@ Run The app
 
 Runs your app in development mode.
 
+IOS 
+
+if you're on a mac don't forget  `cd ios && pod install && cd ..` then 👇🏼
+
 #### `npm run ios`
 
 Like `npm start`, but also attempts to open your app in the iOS Simulator if you're on a Mac and have it installed.
+
+ANDROID
 
 #### `npm run android`
 
